@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,9 @@ public class ReservationController {
             Room room = roomService.findById(Long.parseLong(req.get("roomId")));
             User user = userService.findByUsername(principal.getName());
             LocalDate date = LocalDate.parse(req.get("date"));
-            String timeSlot = req.get("timeSlot");
-            Reservation reservation = reservationService.create(room, user, date, timeSlot);
+            LocalTime startTime = LocalTime.parse(req.get("startTime"));
+            LocalTime endTime = LocalTime.parse(req.get("endTime"));
+            Reservation reservation = reservationService.create(room, user, date, startTime, endTime);
             return ResponseEntity.ok(reservation);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

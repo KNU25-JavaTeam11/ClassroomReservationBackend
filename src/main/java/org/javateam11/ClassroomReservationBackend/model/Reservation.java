@@ -3,6 +3,7 @@ package org.javateam11.ClassroomReservationBackend.model;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -19,5 +20,6 @@ public class Reservation {
     private User user;
 
     private LocalDate date;
-    private String timeSlot;
+    private LocalTime startTime;
+    private LocalTime endTime;
 } 
