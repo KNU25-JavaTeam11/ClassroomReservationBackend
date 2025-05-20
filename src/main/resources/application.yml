@@ -13,4 +13,8 @@ spring:
   security:
     user:
       name: admin
-      password: admin 
+      password: admin
+# JWT 설정
+jwt:
+  secret: RjK/pKVFsBiRdPNYq1xw3BkgPjAE71o0+3LnaP8L/ws=
+  expiration: 3600000 
