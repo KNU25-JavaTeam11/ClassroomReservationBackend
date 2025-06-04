@@ -10,14 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.javateam11.ClassroomReservationBackend.security.JwtUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "인증", description = "사용자 인증 관련 API")
 public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
+    @Operation(summary = "회원 가입", description = "새로운 사용자를 등록합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "회원 가입 성공", 
+                    content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청 (중복된 사용자명 등)")
+    })
     public ResponseEntity<?> register(@RequestBody @Valid UserRequestDto req) {
         try {
             User user = userService.register(req.getUsername(), req.getPassword());
@@ -32,6 +46,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "사용자 인증을 수행하고 JWT 토큰을 발급합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "로그인 성공", 
+                    content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
+        @ApiResponse(responseCode = "400", description = "인증 실패 (잘못된 사용자명 또는 비밀번호)")
+    })
     public ResponseEntity<?> login(@RequestBody @Valid UserRequestDto req) {
         try {
             User user = userService.authenticate(req.getUsername(), req.getPassword());
