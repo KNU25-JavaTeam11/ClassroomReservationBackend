@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    # 개발 중에는 H2 인메모리 DB 사용
+    url: jdbc:h2:mem:devdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop        # 개발 중에는 매번 새로 생성
+    show-sql: true                 # 개발 중에는 SQL 로깅 활성화
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        # 캐시 설정 비활성화
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# JWT 설정
+jwt:
+  secret: RjK/pKVFsBiRdPNYq1xw3BkgPjAE71o0+3LnaP8L/ws=
+  expiration: 3600000
+
+# 개발용 로깅 설정
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.javateam11.ClassroomReservationBackend: DEBUG
+    org.springframework.security: DEBUG
+    root: INFO 

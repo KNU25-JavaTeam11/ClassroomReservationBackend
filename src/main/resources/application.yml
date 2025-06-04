@@ -3,13 +3,27 @@ spring:
     url: jdbc:mysql://nitro.inft.kr:3306/classroom_reservation?serverTimezone=Asia/Seoul
     username: classroom_reservation
     password: Knu2025java11!
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
   security:
     user:
       name: admin
@@ -17,4 +31,12 @@ spring:
 # JWT 설정
 jwt:
   secret: RjK/pKVFsBiRdPNYq1xw3BkgPjAE71o0+3LnaP8L/ws=
-  expiration: 3600000 
+  expiration: 3600000
+
+# 로깅 레벨 조정
+logging:
+  level:
+    org.springframework.web: WARN
+    org.hibernate: WARN
+    com.zaxxer.hikari: WARN
+    root: INFO 
