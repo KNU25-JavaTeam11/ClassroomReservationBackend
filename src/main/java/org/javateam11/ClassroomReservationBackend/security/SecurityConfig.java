@@ -10,8 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.javateam11.ClassroomReservationBackend.security.JwtAuthenticationFilter;
-import org.javateam11.ClassroomReservationBackend.security.JwtUtil;
 import org.javateam11.ClassroomReservationBackend.service.UserService;
 
 @Configuration
