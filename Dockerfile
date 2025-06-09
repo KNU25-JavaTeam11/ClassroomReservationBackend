@@ -16,8 +16,8 @@ COPY . .
 # jar 빌드 (테스트 제외)
 RUN ./gradlew clean build -x test
 
-# 2. 실제 실행 환경 (더 가벼운 JRE)
-FROM eclipse-temurin:21-jre
+# 2. 실제 실행 환경 (더 가벼운 Alpine JRE)
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
