@@ -1,5 +1,5 @@
 # Multi-stage build를 사용하여 최적화된 Docker 이미지 생성
-FROM openjdk:21-jdk-slim as builder
+FROM openjdk:21-jdk-alpine as builder
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -18,7 +18,7 @@ COPY src src
 RUN ./gradlew bootJar --no-daemon -x test
 
 # 실행용 이미지 생성
-FROM openjdk:21-jre-slim
+FROM openjdk:21-jre-alpine
 
 # 애플리케이션 실행을 위한 사용자 생성
 RUN addgroup --system spring && adduser --system spring --ingroup spring
