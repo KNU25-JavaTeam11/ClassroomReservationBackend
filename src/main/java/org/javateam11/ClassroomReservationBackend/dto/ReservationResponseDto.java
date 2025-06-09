@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ReservationResponseDto {
     private Long id;
     private Long roomId;
-    private Long userId;
+    private String studentId;
     private String date;
     private String startTime;
     private String endTime;

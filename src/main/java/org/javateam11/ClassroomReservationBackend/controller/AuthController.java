@@ -34,10 +34,11 @@ public class AuthController {
     })
     public ResponseEntity<?> register(@RequestBody @Valid UserRequestDto req) {
         try {
-            User user = userService.register(req.getUsername(), req.getPassword());
-            String token = jwtUtil.generateToken(user.getUsername());
+            User user = userService.register(req.getStudentId(), req.getName(), req.getPassword());
+            String token = jwtUtil.generateToken(user.getStudentId());
             return ResponseEntity.ok(UserResponseDto.builder()
-                .username(user.getUsername())
+                .studentId(user.getStudentId())
+                .name(user.getName())
                 .token(token)
                 .build());
         } catch (IllegalArgumentException e) {
@@ -54,10 +55,10 @@ public class AuthController {
     })
     public ResponseEntity<?> login(@RequestBody @Valid UserRequestDto req) {
         try {
-            User user = userService.authenticate(req.getUsername(), req.getPassword());
-            String token = jwtUtil.generateToken(user.getUsername());
+            User user = userService.authenticate(req.getStudentId(), req.getPassword());
+            String token = jwtUtil.generateToken(user.getStudentId());
             return ResponseEntity.ok(UserResponseDto.builder()
-                .username(user.getUsername())
+                .studentId(user.getStudentId())
                 .token(token)
                 .build());
         } catch (IllegalArgumentException e) {

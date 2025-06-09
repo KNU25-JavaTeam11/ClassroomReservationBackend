@@ -12,19 +12,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User register(String username, String password) {
-        if (userRepository.findByUsername(username).isPresent()) {
+    public User register(String studentId, String name, String password) {
+        if (userRepository.findByStudentId(studentId).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 사용자명입니다.");
         }
         User user = User.builder()
-                .username(username)
+                .studentId(studentId)
+                .name(name)
                 .password(passwordEncoder.encode(password))
                 .build();
         return userRepository.save(user);
     }
 
-    public User authenticate(String username, String password) {
-        User user = userRepository.findByUsername(username)
+    public User authenticate(String studentId, String password) {
+        User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
@@ -32,8 +33,8 @@ public class UserService {
         return user;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
+    public User findByStudentId(String studentId) {
+        return userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 } 

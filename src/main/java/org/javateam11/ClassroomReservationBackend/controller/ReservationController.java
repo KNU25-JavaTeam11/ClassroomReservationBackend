@@ -47,7 +47,7 @@ public class ReservationController {
     public ResponseEntity<?> createReservation(@RequestBody @Valid ReservationRequestDto req, Principal principal) {
         try {
             Room room = roomService.findById(req.getRoomId());
-            User user = userService.findByUsername(principal.getName());
+            User user = userService.findByStudentId(principal.getName());
             LocalDate date = LocalDate.parse(req.getDate());
             LocalTime startTime = LocalTime.parse(req.getStartTime());
             LocalTime endTime = LocalTime.parse(req.getEndTime());
@@ -55,7 +55,7 @@ public class ReservationController {
             ReservationResponseDto response = ReservationResponseDto.builder()
                     .id(reservation.getId())
                     .roomId(reservation.getRoom().getId())
-                    .userId(reservation.getUser().getId())
+                    .studentId(reservation.getUser().getStudentId())
                     .date(reservation.getDate().toString())
                     .startTime(reservation.getStartTime().toString())
                     .endTime(reservation.getEndTime().toString())
@@ -89,7 +89,7 @@ public class ReservationController {
                     .map(reservation -> ReservationResponseDto.builder()
                             .id(reservation.getId())
                             .roomId(reservation.getRoom().getId())
-                            .userId(reservation.getUser().getId())
+                            .studentId(reservation.getUser().getStudentId())
                             .date(reservation.getDate().toString())
                             .startTime(reservation.getStartTime().toString())
                             .endTime(reservation.getEndTime().toString())
@@ -112,7 +112,7 @@ public class ReservationController {
             @Parameter(description = "예약 ID") @PathVariable Long id,
             Principal principal) {
         try {
-            User user = userService.findByUsername(principal.getName());
+            User user = userService.findByStudentId(principal.getName());
             reservationService.cancel(id, user);
             return ResponseEntity.ok(Map.of("message", "예약 취소 완료"));
         } catch (Exception e) {
