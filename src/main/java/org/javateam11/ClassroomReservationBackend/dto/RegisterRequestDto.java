@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Getter
 @Setter
-@Schema(description = "사용자 요청 DTO")
-public class UserRequestDto {
+@Schema(description = "회원가입 요청 DTO")
+public class RegisterRequestDto {
     @NotNull(message = "학번은 필수입니다")
     @Size(min = 10, max = 10, message = "학번은 10자리여야 합니다")
     @Schema(description = "학번", example = "2024000000", minLength = 10, maxLength = 10)
