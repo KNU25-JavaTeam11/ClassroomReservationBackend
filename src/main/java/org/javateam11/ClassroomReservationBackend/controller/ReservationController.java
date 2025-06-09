@@ -67,7 +67,7 @@ public class ReservationController {
     }
 
     @GetMapping
-    @Operation(summary = "예약 조회", description = "특정 강의실과 날짜의 예약 목록을 조회합니다.")
+    @Operation(summary = "예약 조회", description = "특정 강의실과 날짜의 예약 목록을 조회합니다.", security = {})
     @ApiResponse(responseCode = "200", description = "예약 목록 조회 성공")
     public List<ReservationResponseDto> getReservations(
             @Parameter(description = "강의실 ID") @RequestParam Long roomId, 
