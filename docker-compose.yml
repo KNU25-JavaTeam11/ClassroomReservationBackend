@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # MySQL 데이터베이스
+  mysql:
+    image: mysql:8.0
+    container_name: classroom-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: classroom_reservation
+      MYSQL_USER: classroom_reservation
+      MYSQL_PASSWORD: Knu2025java11!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - classroom-network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Spring Boot 애플리케이션
+  app:
+    build: .
+    container_name: classroom-app
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/classroom_reservation?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: classroom_reservation
+      SPRING_DATASOURCE_PASSWORD: Knu2025java11!
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+    networks:
+      - classroom-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  classroom-network:
+    driver: bridge 

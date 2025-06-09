@@ -1,0 +1,36 @@
+# Git 관련 파일
+.git
+.gitignore
+.gitattributes
+
+# IDE 관련 파일
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# 빌드 결과물
+build/
+.gradle/
+target/
+
+# 로그 파일
+*.log
+
+# 운영체제 관련 파일
+.DS_Store
+Thumbs.db
+
+# 임시 파일
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# 문서 파일 (선택적)
+README*.md
+HELP.md
+
+# 테스트 관련
+*.test 
