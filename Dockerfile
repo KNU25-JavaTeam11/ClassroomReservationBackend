@@ -1,5 +1,5 @@
 # Multi-stage build를 사용하여 최적화된 Docker 이미지 생성
-FROM openjdk:21-jdk-alpine as builder
+FROM openjdk:21-jdk-alpine AS builder
 
 # 작업 디렉토리 설정
 WORKDIR /app
