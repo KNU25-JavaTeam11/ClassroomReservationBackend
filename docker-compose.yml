@@ -13,14 +13,18 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - javateam11
     restart: unless-stopped
     command: --default-authentication-plugin=mysql_native_password
 
   # Spring Boot 애플리케이션
-  backend:
+  backen:
     build: .
     depends_on:
       - mysql
+    ports:
+      - "8082:8082"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/classroom_reservation?serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: classroom_reservation
@@ -28,13 +32,19 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: true
     networks:
-      - web
+      - javateam11
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 volumes:
   mysql_data:
     driver: local
 
 networks:
-  web:
-    external: true
+  javateam11:
+    driver: bridge 
