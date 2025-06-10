@@ -58,7 +58,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto req) {
         try {
             User user = userService.authenticate(req.getStudentId(), req.getPassword());
-            String token = jwtUtil.generateToken(user.getStudentId());
+            String token = jwtUtil.generateToken(user.getStudentId(), user.getName());
             return ResponseEntity.ok(LoginResponseDto.builder()
                 .studentId(user.getStudentId())
                 .name(user.getName())

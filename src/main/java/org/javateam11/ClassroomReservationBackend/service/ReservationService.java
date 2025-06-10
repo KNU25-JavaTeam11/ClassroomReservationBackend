@@ -42,7 +42,15 @@ public class ReservationService {
     }
 
     public List<Reservation> findByRoomAndDate(Long roomId, LocalDate date) {
-        return reservationRepository.findByRoomIdAndDate(roomId, date);
+        if (roomId != null && date != null) {
+            return reservationRepository.findByRoomIdAndDate(roomId, date);
+        } else if (roomId != null) {
+            return reservationRepository.findByRoomId(roomId);
+        } else if (date != null) {
+            return reservationRepository.findByDate(date);
+        } else {
+            return reservationRepository.findAll();
+        }
     }
 
     public void cancel(Long reservationId, User user) {
