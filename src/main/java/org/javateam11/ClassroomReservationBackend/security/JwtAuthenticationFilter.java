@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.startsWith("/swagger-ui") ||
                path.startsWith("/v3/api-docs") ||
@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtUtil.validateToken(token, username)) {
                 var user = userService.findByStudentId(username);
                 var authToken = new UsernamePasswordAuthenticationToken(
-                        user, null, List.of(new SimpleGrantedAuthority("USER")));
+                        username, null, List.of(new SimpleGrantedAuthority("USER")));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
